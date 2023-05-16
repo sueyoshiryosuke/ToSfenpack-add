@@ -14,9 +14,9 @@
 　やねうら王　　　https://github.com/yaneurao/YaneuraOu  
 　7-Zip 　　　　　https://sevenzip.osdn.jp/  
 【参考ソフト、サイト】  
-　floodgate 　　　http://wdoor.c.u-tokyo.ac.jp/shogi/floodgate.html
-　ShogiGUI　　　　http://shogigui.siganus.com/
-　Electron将棋　　https://sunfish-shogi.github.io/electron-shogi/
+　floodgate 　　　http://wdoor.c.u-tokyo.ac.jp/shogi/floodgate.html  
+　ShogiGUI　　　　http://shogigui.siganus.com/  
+　Electron将棋　　https://sunfish-shogi.github.io/electron-shogi/  
   
 ―――――――――――――――――――――――――――――――――――――  
 ## 著作権および免責事項  
@@ -37,13 +37,13 @@
 　Windows11 を搭載したパソコンで動作します。  
   
 ## ファイル構成  
-　0-run-CSAtoSFENPACK.bat 
+　0-run-CSAtoSFENPACK.bat  
 　　→floodgateの評価値入りのcsaファイルを変換したいときに実行してください。  
-　1-run-KIFtoSFENPACK.bat 
+　1-run-KIFtoSFENPACK.bat  
 　　→ShogiGUIで作成した評価値入りkifファイルを変換したいときに実行してください。  
-　2-run-KIFtoSFENPACK2.bat 
+　2-run-KIFtoSFENPACK2.bat  
 　　→Electron将棋のコメント入りkifファイルを変換したいときに実行してください。  
-　3-make-sfen-bin.bat 
+　3-make-sfen-bin.bat  
 　　→やねうら王教師局面形式に変換するときに必要ですが特に実行する必要はありません。  
 　README.md  
 　　→この説明ファイルです。  

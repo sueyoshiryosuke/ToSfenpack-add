@@ -1,0 +1,11 @@
+KIFtoSFENPACK.py
+CSAtoSFENPACK.py
+Board.py
+
+# 上記のファイルに関して
+
+何も決めてませんでした…とりあえず自由に使ってください、著作者表示も不要です！
+
+https://twitter.com/tayayan_ts/status/1658325178626215936?s=20
+たややん（Twitter @tayayan_ts）
+午後1:15 · 2023年5月16日

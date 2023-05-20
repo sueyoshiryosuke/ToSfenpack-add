@@ -18,6 +18,7 @@ n=1
 while files:
     #kifファイルじゃない…
     if not ".kif" in files[0]:
+        print(f"{files[0]}はkifファイルではないのでスキップします。")
         n += 1
         if n % 100 == 0:
             print("tempファイル処理…"+str(n)+"ファイル処理済")
@@ -61,6 +62,14 @@ while files:
                 now_player =  first_player # その手番のプレーヤー。1は先手、-1は後手。
             else:
                 now_player = -first_player # その手番のプレーヤー。1は先手、-1は後手。
+            if "入玉勝ち" in readkif_line and now_player == 1:
+                wfile.write(readkif_line)
+                wfile.write(f"まで{turn_num}手で先手の勝ち\n")
+                break
+            elif "入玉勝ち" in readkif_line and now_player == -1:
+                wfile.write(readkif_line)
+                wfile.write(f"まで{turn_num}手で後手の勝ち\n")
+                break
             if "千日手" in readkif_line or "持将棋" in readkif_line:
                 wfile.write(readkif_line)
                 wfile.write("まで\n")
@@ -84,41 +93,42 @@ while files:
         print("tempファイル処理…"+str(n)+"ファイル処理済")
     del files[0]
 
+print("sfenpack.txtを書き出す準備をしています。少しお待ち下さい。")
+
 #ここからsfenpack変換
 path = "./temp"
 files = os.listdir(path)
 p = 1
-result_list = []  # 各kifファイルごとの勝敗リスト。勝ち1、負け-1、引き分け0。
+
+# kifファイル名とその結果のリストを、格納するリスト。
+# 各kifファイルごとの勝敗リスト。勝ち"1"、負け"-1"、引き分け"0"
+# 例 [ ["file1.kif", "0"], ["file2.kif", "-1"], ["file3.kif", "1"] ]
+result_list = []  
+
 for file_names in files:
 #while files:
-    #kifファイルじゃない…
-    if not ".kif" in file_names:
-        print(f"{file_names}はkifファイルではないのでスキップします。")
-        files.remove(file_names)
-        continue
     #勝ち負け判断
     rfile = open(path+"/"+file_names, "r")
     summary = rfile.read()
     if "で先手の勝ち" in summary:
         #result0 = 1
-        result_list.append(1)
+        result_list.append([file_names, "1"])
     elif "で後手の勝ち" in summary:
         #result0 = -1
-        result_list.append(-1)
+        result_list.append([file_names, "-1"])
     elif "千日手" in summary or "持将棋" in summary:
         #result0 = 0
-        result_list.append(0)
+        result_list.append([file_names, "0"])
     else:
         rfile.close()
-        print(f"{file_names}は勝ち負け以外の結果なのでスキップします。")
-        files.remove(file_names)
+        print(f"{file_names}は想定外の結果なのでスキップします。")
         continue
     rfile.close()
 
-i=0
+#i=0
 if(os.path.isfile('sfenpack.txt')):
     os.remove('sfenpack.txt')
-for file_names in files:
+for file_names, result in result_list:
     board = []
     board = Board.BoardShoki()
     turn = 1
@@ -139,7 +149,6 @@ for file_names in files:
             pass
         else:
             if "まで" in readkif[0] or "まで" in readkif[1] or readkif[0].find("投了") != -1 or readkif[0].find("宣言") != -1 or readkif[0].find("持将棋") != -1:
-                i += 1
                 break
             readkif.insert(1, "**対局 評価値 0 読み筋 \n")
         
@@ -155,8 +164,7 @@ for file_names in files:
             score = -100000*turn
         else:
             score = int(score0.replace("↓",""))*turn
-        #result読み込み
-        result = str(turn * result_list[i])
+        #resultは、ファイル名と一緒に読み込んでいる。
         #書き込み
         wfile.write(sfen+"\n"+"move "+sfenmove+"\n"+"score "+str(score)+"\n"+"ply "+str(ply)+"\n"+"result "+result+"\n"+"e\n")
         #board一手進める
